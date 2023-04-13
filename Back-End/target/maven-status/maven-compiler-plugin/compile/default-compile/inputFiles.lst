@@ -1,0 +1,16 @@
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\controller\NewslatterController.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\repository\NewslatterRepository.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\exception\ProductCouldNotBeSavedException.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\SpringBootDataJpaApplication.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\repository\ProductRepository.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\exception\ResourceNotFoundException.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\model\Newslatter.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\exception\CategoryNotFoundException.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\model\Product.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\model\Category.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\controller\CategoryController.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\exception\ProductLoadException.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\repository\CategoryRepository.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\exception\CategoryLoadException.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\controller\ProductController.java
+C:\Users\Jakub\Desktop\m450-Applikationen_testen\Back-End\src\main\java\ch\web\web_shop\exception\ControllerAdvisor.java

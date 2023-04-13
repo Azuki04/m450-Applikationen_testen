@@ -64,4 +64,50 @@ public class ProductControllerTest {
 						.contentType(MediaType.APPLICATION_JSON));
 	}
 
+
+
+	//heute
+//Test für delete Komponent
+	@Test
+	public void testDeleteAllProducts() {
+		productRepository.deleteAll();
+		assertEquals(0, productRepository.count());
+	}
+
+	@Test
+	public void testDeleteAllProductsException() {
+		doThrow(new RuntimeException()).when(productRepository).deleteAll();
+		ResponseEntity<HttpStatus> response = controller.deleteAllProducts();
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+	}
+
+
+// checken ob neue newslatter erstellt
+	@Test
+	public void testCreateNewslatter() {
+		Newslatter newslatter = new Newslatter();
+		newslatter.setEmail("test@test.com");
+		when(newslatterRepository.save(newslatter)).thenReturn(newslatter);
+		assertEquals(newslatter, controller.createNewslatter(newslatter));
+	}
+
+
+
+	//Publish
+	@Test
+	public void testFindByPublished() {
+		List<Product> products = new ArrayList<>();
+		Product product = new Product();
+		product.setTitle("Test Product");
+		product.setDescription("Test Description");
+		product.setPublished(true);
+		products.add(product);
+		when(productRepository.findByPublished(true)).thenReturn(products);
+		ResponseEntity<List<Product>> responseEntity = controller.findByPublished();
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(products, responseEntity.getBody());
+	}
+
+
+
 }

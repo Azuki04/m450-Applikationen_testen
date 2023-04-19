@@ -11,6 +11,10 @@ import ch.web.web_shop.model.Newslatter;
 import ch.web.web_shop.model.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,6 +30,7 @@ import ch.web.web_shop.repository.NewslatterRepository;
 import ch.web.web_shop.repository.ProductRepository;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +44,6 @@ public class ProductControllerTest {
 	private NewslatterRepository newslatterRepository;
 	@MockBean
 	private ProductRepository productRepository;
-	@MockBean
-	private CategoryRepository categoryRepository;
 
 	@Autowired
 	ProductController productController;
@@ -48,8 +51,6 @@ public class ProductControllerTest {
 	@Autowired
 	NewslatterController newslatterController;
 
-	@Autowired
-	private MockMvc mockMvc;
 
 @Test
 public void whenProductControllerInjected_thenNotNull() throws Exception {
@@ -158,7 +159,4 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(products, responseEntity.getBody());
 	}
-
-
-
 }

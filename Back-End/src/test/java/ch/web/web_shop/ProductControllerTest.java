@@ -51,102 +51,100 @@ public class ProductControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-
-/*
-	@Test
-	public void whenGetRequestToGetAllProduicts_thenCorrectResponse() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/products"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.content()
-						.contentType(MediaType.APPLICATION_JSON));
-	}
-
-	@Test
-	public void whenPostRequestToProductAndInValidProduct_thenCorrectResponse() throws Exception {
-		String product = "{\"products\": null }";
-		mockMvc.perform(MockMvcRequestBuilders.post("/products/1")
-				.content(product)
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isBadRequest())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.product").value("Product is mandatory"))
-				.andExpect(MockMvcResultMatchers.content()
-						.contentType(MediaType.APPLICATION_JSON));
-	}
-*/
 @Test
 public void whenProductControllerInjected_thenNotNull() throws Exception {
-	// assert
+	// Assert
 	assertThat(productController).isNotNull();
 }
-
-
 	@Test
 	public void getAllProductsTest() {
+		// Arrange
 		List<Product> products = new ArrayList<Product>();
 		Product product1 = new Product("Title1", "Description1", "Content1", 10.0, 100, "src1", false, "Category1");
 		Product product2 = new Product("Title2", "Description2", "Content2", 20.0, 200, "src2", false, "Category2");
 		products.add(product1);
 		products.add(product2);
 		when(productRepository.findAll()).thenReturn(products);
+		// Act
 		ResponseEntity<List<Product>> responseEntity = productController.getAllProducts(null);
-		// assert
+		// Assert
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
 
 	@Test
 	public void getProductByIdTest() {
+	    // Arrange
 		long id = 1;
 		Product product = new Product("Title", "Description", "Content", 10.0, 100, "src", false, "Category");
 		product.setId(id);
 		Optional<Product> optionalProduct = Optional.of(product);
 		when(productRepository.findById(id)).thenReturn(optionalProduct);
+		// Act
 		ResponseEntity<Product> responseEntity = productController.getProductById(id);
-		// assert
+		// Assert
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
 // createProduct
 	@Test
 	public void createProductTest() {
+		// Arrange
 		Product product = new Product("Title", "Description", "Content", 10.0, 100, "src", false, "toy");
+		// Act
 		ResponseEntity<Product> responseEntity = productController.createProduct(product);
-		// assert
+		// Assert
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
 
-	//heute
-//Test für delete Komponent
+
+//Test für delete Komponente
 	@Test
 	public void testDeleteAllProducts() {
+		// Act
 		productRepository.deleteAll();
-		// assert
+		// Assert
 		assertEquals(0, productRepository.count());
 	}
 
 	@Test
 	public void testDeleteAllProductsException() {
+		// Arrange
 		doThrow(new RuntimeException()).when(productRepository).deleteAll();
+		// Act
 		ResponseEntity<HttpStatus> response = productController.deleteAllProducts();
-		// assert
+		// Assert
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 	}
+	@Test
+	public void testUpdateProduct() {
+		// Arrange
+		long productId = 1L;
+		Product existingProduct = new Product("Product1", "Description1", "Content1", 10.0, 100, "src1", false, "Category1");
+		Product updatedProduct = new Product("Product1_Updated", "Description1_Updated", "Content1", 20.0, 250, "src1", true, "Category1");
+		Optional<Product> optionalProduct = Optional.of(existingProduct);
+		when(productRepository.findById(productId)).thenReturn(optionalProduct);
+		when(productRepository.save(existingProduct)).thenReturn(updatedProduct);
+		// Act
+		ResponseEntity<Product> response = productController.updateProduct(productId, updatedProduct);
+		// Assert
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(updatedProduct, response.getBody());
+	}
 
-
-// checken ob neue newslatter erstellt
+// checken, ob neue newslatter erstellt
 	@Test
 	public void testCreateNewslatter() {
+		// Arrange
 		Newslatter newslatter = new Newslatter();
 		newslatter.setEmailId("test@test.com");
 		when(newslatterRepository.save(newslatter)).thenReturn(newslatter);
-		// assert
+		// Assert
 		assertEquals(newslatter, newslatterController.createNewslatter(newslatter));
 	}
-
-
 
 	//Publish
 	@Test
 	public void testFindByPublished() {
-		// arrange
+		// Arrange
 		List<Product> products = new ArrayList<>();
 		Product product = new Product("Title", "Description", "Content", 10.0, 100, "src", false, "toy");
 		product.setTitle("Test Product");
@@ -154,8 +152,9 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 		product.setPublished(true);
 		products.add(product);
 		when(productRepository.findByPublished(true)).thenReturn(products);
+		// Act
 		ResponseEntity<List<Product>> responseEntity = productController.findByPublished();
-		// assert
+		// Assert
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(products, responseEntity.getBody());
 	}

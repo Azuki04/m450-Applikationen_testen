@@ -1,2 +1,4 @@
+ch\web\web_shop\MockitoTest.class
+ch\web\web_shop\ProductControllerTest.class
 ch\web\web_shop\CategoryControllerTest.class
 ch\web\web_shop\SpringBootDataJpaApplicationTests.class

@@ -11,10 +11,6 @@ import ch.web.web_shop.model.Newslatter;
 import ch.web.web_shop.model.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,7 +26,6 @@ import ch.web.web_shop.repository.NewslatterRepository;
 import ch.web.web_shop.repository.ProductRepository;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +39,8 @@ public class ProductControllerTest {
 	private NewslatterRepository newslatterRepository;
 	@MockBean
 	private ProductRepository productRepository;
+	@MockBean
+	private CategoryRepository categoryRepository;
 
 	@Autowired
 	ProductController productController;
@@ -51,12 +48,14 @@ public class ProductControllerTest {
 	@Autowired
 	NewslatterController newslatterController;
 
+	@Autowired
+	private MockMvc mockMvc;
 
-@Test
-public void whenProductControllerInjected_thenNotNull() throws Exception {
-	// Assert
-	assertThat(productController).isNotNull();
-}
+	@Test
+	public void whenProductControllerInjected_thenNotNull() throws Exception {
+		// Assert
+		assertThat(productController).isNotNull();
+	}
 	@Test
 	public void getAllProductsTest() {
 		// Arrange
@@ -74,7 +73,7 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 
 	@Test
 	public void getProductByIdTest() {
-	    // Arrange
+		// Arrange
 		long id = 1;
 		Product product = new Product("Title", "Description", "Content", 10.0, 100, "src", false, "Category");
 		product.setId(id);
@@ -85,7 +84,7 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 		// Assert
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
-// createProduct
+	// createProduct
 	@Test
 	public void createProductTest() {
 		// Arrange
@@ -97,7 +96,7 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 	}
 
 
-//Test für delete Komponente
+	//Test für delete Komponente
 	@Test
 	public void testDeleteAllProducts() {
 		// Act
@@ -131,7 +130,7 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 		assertEquals(updatedProduct, response.getBody());
 	}
 
-// checken, ob neue newslatter erstellt
+	// checken, ob neue newslatter erstellt
 	@Test
 	public void testCreateNewslatter() {
 		// Arrange
@@ -159,4 +158,7 @@ public void whenProductControllerInjected_thenNotNull() throws Exception {
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(products, responseEntity.getBody());
 	}
+
+
+
 }

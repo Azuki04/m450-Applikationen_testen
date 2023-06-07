@@ -47,7 +47,7 @@ public class ProductService {
                 return productRepository.findByTitleContaining(title);
             }
         } catch (Exception ex) {
-            throw new ProductLoadException();
+            throw new ProductLoadException("Product load failed");
         }
     }
 
@@ -139,7 +139,7 @@ public class ProductService {
         try {
             return productRepository.findByPublished(true);
         } catch (Exception e) {
-            throw new ProductLoadException();
+            throw new ProductLoadException("Product load failed");
         }
     }
 }

@@ -6,13 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="LB" />
+        <module name="v2.0" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Projekt" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="LB" options="-parameters" />
+      <module name="Projekt" options="-parameters" />
+      <module name="v2.0" options="-parameters" />
     </option>
   </component>
 </project>

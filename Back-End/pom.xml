@@ -9,10 +9,10 @@
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
-	<groupId>LB_Sy_Viet</groupId>
-	<artifactId>LB</artifactId>
+	<groupId>project-m450</groupId>
+	<artifactId>v2.0</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>LB_Sy_Viet</name>
+	<name>Project</name>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -62,6 +62,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 	<build>

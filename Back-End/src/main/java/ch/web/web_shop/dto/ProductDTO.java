@@ -1,16 +1,54 @@
 package ch.web.web_shop.dto;
 
-public class ProductDTO {
-    private String title;
-    private String description;
-    private String content;
-    private int price;
-    private int stock;
-    private String src;
-    private boolean published;
-    private Long categoryId;
+import ch.web.web_shop.model.Category;
 
-    // Getters and setters for all the fields
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+public class ProductDTO {
+
+    @NotEmpty(message = "Title is mandatory")
+    @NotNull(message = "Title cannot be null")
+    private String title;
+
+    @Size(min = 1, max = 50, message = "Description must be between 1 and 50 characters")
+    @NotNull(message = "Description cannot be null")
+    private String description;
+
+    private String content;
+
+    @Min(value = 0, message = "Price should not be less than 0")
+    @NotNull(message = "Price cannot be null")
+    private int price;
+
+    @Min(value = 1, message = "Stock should not be less than 1")
+    @NotNull(message = "Stock cannot be null")
+    private int stock;
+
+    private String src;
+
+    private boolean published;
+
+    @NotNull(message = "Category cannot be null")
+    private Category category;
+
+    public ProductDTO() {
+        // Default constructor
+    }
+
+    public ProductDTO(String title, String description, String content, int price, int stock, String src,
+                      boolean published, Category category) {
+        this.title = title;
+        this.description = description;
+        this.content = content;
+        this.price = price;
+        this.stock = stock;
+        this.src = src;
+        this.published = published;
+        this.category = category;
+    }
 
     public String getTitle() {
         return title;
@@ -68,11 +106,11 @@ public class ProductDTO {
         this.published = published;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

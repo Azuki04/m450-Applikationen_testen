@@ -23,14 +23,14 @@ class Section extends React.Component {
             <Route path="/" >
               <Route path="" index element={<Login />} />
               <Route path="sign-In" element={<SignIn/>} />
-              <Route path="home" element={<Home />} />
-              <Route path="products" element={<Products />} />
-              <Route path="editProduct/:id" element={<EditProduct />} />
+              <Route path=":userId/home" element={<Home />} />
+              <Route path=":userId/products" element={<Products />} />
+              <Route path=":userId/editProduct/:id" element={<EditProduct />} />
               <Route path="products/detail/:id" element={<ProductDetails />} />
-              <Route path="cart" element={<Cart />} />
+              <Route path=":userId/cart" element={<Cart />} />
               <Route path="payment" element={<Payment />} />
-              <Route path="add" element={<AddProduct />} />
-              <Route path="about" element={<AboutUs />} />
+              <Route path=":userId/add" element={<AddProduct />} />
+              <Route path=":userId/about" element={<AboutUs />} />
               <Route path="user/:id" element={<UserProfil />} />
             </Route>
             <Route path="*" element={<NotFound />} />

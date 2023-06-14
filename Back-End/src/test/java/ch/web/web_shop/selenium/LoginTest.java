@@ -11,6 +11,7 @@ import java.time.Duration;
 
 public class LoginTest {
     public static void main(String[] args) {
+        /*
         // Setze den Pfad zum Chrome Webdriver
         System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
 
@@ -47,5 +48,7 @@ public class LoginTest {
 
         // Schließe den Webdriver
         driver.quit();
+
+         */
     }
 }

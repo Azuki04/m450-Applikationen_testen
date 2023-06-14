@@ -65,6 +65,8 @@ class Login extends React.Component {
         return (
             <div className="login-form">
                 <h2>Login</h2>
+                <p>Please log in to access product creation and other features.</p>
+                <br/>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>

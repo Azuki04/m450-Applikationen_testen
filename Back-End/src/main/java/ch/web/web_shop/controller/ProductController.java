@@ -31,6 +31,16 @@ public class ProductController {
 
 		return ResponseEntity.ok(products);
 	}
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<Product>> getAllProductsByUserId(@PathVariable("userId") long userId) {
+		List<Product> products = productService.getAllProducts(userId);
+
+		if (products.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+
+		return ResponseEntity.ok(products);
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {

@@ -1,6 +1,7 @@
 package ch.web.web_shop.dto;
 
 import ch.web.web_shop.model.Category;
+import ch.web.web_shop.model.User;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -34,12 +35,15 @@ public class ProductDTO {
     @NotNull(message = "Category cannot be null")
     private Category category;
 
+    @NotNull(message = "User cannot be null")
+    private User user;
+
     public ProductDTO() {
         // Default constructor
     }
 
     public ProductDTO(String title, String description, String content, int price, int stock, String src,
-                      boolean published, Category category) {
+                      boolean published, Category category, User user) {
         this.title = title;
         this.description = description;
         this.content = content;
@@ -48,6 +52,7 @@ public class ProductDTO {
         this.src = src;
         this.published = published;
         this.category = category;
+        this.user = user;
     }
 
     public String getTitle() {
@@ -112,5 +117,13 @@ public class ProductDTO {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

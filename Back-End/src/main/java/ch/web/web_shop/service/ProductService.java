@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import ch.web.web_shop.dto.ProductDTO;
-import ch.web.web_shop.exception.ProductDeleteException;
-import ch.web.web_shop.exception.ProductLoadException;
-import ch.web.web_shop.exception.ProductNotFoundException;
+import ch.web.web_shop.exception.*;
+import ch.web.web_shop.model.User;
+import ch.web.web_shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.web.web_shop.exception.ProductCouldNotBeSavedException;
 import ch.web.web_shop.model.Product;
 import ch.web.web_shop.repository.ProductRepository;
 
@@ -19,6 +18,8 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Product> getAllProducts(String title) {
         try {
@@ -31,6 +32,23 @@ public class ProductService {
             throw new ProductLoadException("Product load failed");
         }
     }
+    // Get all products for a user
+    public List<Product> getAllProducts(long userId) {
+        try {
+            // Retrieve the user based on the user ID
+            Optional<User> user = userRepository.findById(userId);
+
+            if (user.isPresent()) {
+                // Retrieve all products associated with the user
+                return productRepository.findByUser(user.get());
+            } else {
+                throw new ResourceNotFoundException("User not found");
+            }
+        } catch (Exception ex) {
+            throw new ProductLoadException("Failed to load products for user");
+        }
+    }
+
 
     public Product getProductById(long id) {
         Optional<Product> productData = productRepository.findById(id);
@@ -103,5 +121,6 @@ public class ProductService {
         product.setContent(productDTO.getContent());
         product.setPublished(productDTO.isPublished());
         product.setCategory(productDTO.getCategory());
+        product.setUser(productDTO.getUser());
     }
 }

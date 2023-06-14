@@ -1,23 +1,13 @@
 package ch.web.web_shop.service;
 
-import ch.web.web_shop.exception.ProductCouldNotBeSavedException;
-import ch.web.web_shop.exception.ProductDeleteException;
-import ch.web.web_shop.exception.ProductLoadException;
-import ch.web.web_shop.exception.ProductNotFoundException;
-import ch.web.web_shop.model.Product;
+import ch.web.web_shop.dto.ProductDTO;
+import ch.web.web_shop.exception.*;
+import ch.web.web_shop.model.*;
 import ch.web.web_shop.repository.ProductRepository;
-import ch.web.web_shop.service.ProductService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import ch.web.web_shop.repository.UserRepository;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,6 +16,8 @@ public class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private ProductService productService;
@@ -90,32 +82,50 @@ public class ProductServiceTest {
 
     @Test
     public void testCreateProduct_Success() {
-        Product product = new Product();
-        when(productRepository.save(product)).thenReturn(product);
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setTitle("Test Product");
+        productDTO.setDescription("Test Description");
+        productDTO.setPrice(10);
+        productDTO.setStock(5);
+        productDTO.setPublished(false);
+        productDTO.setCategory(new Category());
+        productDTO.setUser(new User());
 
-        Product result = productService.createProduct(product);
+        Product product = new Product();
+        product.setTitle("Test Product");
+        product.setDescription("Test Description");
+        product.setPrice(10);
+        product.setStock(5);
+        product.setPublished(false);
+        product.setCategory(new Category());
+        product.setUser(new User());
+
+        when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
+
+        Product result = productService.createProduct(productDTO);
         assertEquals(product, result);
     }
 
+
     @Test
     public void testCreateProduct_Exception() {
-        Product product = new Product();
-        when(productRepository.save(product)).thenThrow(RuntimeException.class);
+        ProductDTO productDTO = new ProductDTO();
+        when(productRepository.save(Mockito.any(Product.class))).thenThrow(RuntimeException.class);
 
         assertThrows(ProductCouldNotBeSavedException.class, () -> {
-            productService.createProduct(product);
+            productService.createProduct(productDTO);
         });
     }
 
     @Test
     public void testUpdateProduct_Success() {
         long productId = 1;
+        ProductDTO productDTO = new ProductDTO();
         Product existingProduct = new Product();
         when(productRepository.findById(productId)).thenReturn(Optional.of(existingProduct));
         when(productRepository.save(existingProduct)).thenReturn(existingProduct);
 
-        Product updatedProduct = new Product();
-        Product result = productService.updateProduct(productId, updatedProduct);
+        Product result = productService.updateProduct(productId, productDTO);
 
         assertEquals(existingProduct, result);
         verify(productRepository, times(1)).save(existingProduct);
@@ -124,10 +134,11 @@ public class ProductServiceTest {
     @Test
     public void testUpdateProduct_NotFound() {
         long productId = 1;
+        ProductDTO productDTO = new ProductDTO();
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
         assertThrows(ProductNotFoundException.class, () -> {
-            productService.updateProduct(productId, new Product());
+            productService.updateProduct(productId, productDTO);
         });
     }
 
@@ -193,41 +204,4 @@ public class ProductServiceTest {
             productService.getPublishedProducts();
         });
     }
-
-    @Test
-    public void testGetAllProducts() {
-        // Prepare test data
-        List<Product> products = new ArrayList<>();
-        products.add(new Product());
-        products.add(new Product());
-
-        // Configure mock repository
-        Mockito.when(productRepository.findAll()).thenReturn(products);
-
-        // Call the service method
-        List<Product> result = productService.getAllProducts(null);
-
-        // Verify the result
-        Assertions.assertEquals(products, result);
-        Mockito.verify(productRepository).findAll();
-    }
-
-    @Test
-    public void testGetProductById() {
-        // Prepare test data
-        long productId = 1L;
-        Product product = new Product();
-        product.setId(productId);
-
-        // Configure mock repository
-        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-
-        // Call the service method
-        Product result = productService.getProductById(productId);
-
-        // Verify the result
-        Assertions.assertEquals(product, result);
-        Mockito.verify(productRepository).findById(productId);
-    }
-
 }

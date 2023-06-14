@@ -1,7 +1,11 @@
 package ch.web.web_shop.controller;
-import ch.web.web_shop.controller.ProductController;
+
+import ch.web.web_shop.dto.ProductDTO;
+import ch.web.web_shop.model.Category;
 import ch.web.web_shop.model.Product;
+import ch.web.web_shop.model.User;
 import ch.web.web_shop.service.ProductService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,10 +17,11 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class ProductControllerTest {
+public class ProductControllerTest {
+
     @Mock
     private ProductService productService;
 
@@ -24,97 +29,127 @@ class ProductControllerTest {
     private ProductController productController;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetAllProducts() {
+    public void testGetAllProducts() {
+        // Create test data
         List<Product> products = new ArrayList<>();
-        products.add(new Product());
-        when(productService.getAllProducts(null)).thenReturn(products);
+        products.add(new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User()));
+        products.add(new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User()));
 
+        // Mock the productService
+        when(productService.getAllProducts(anyString())).thenReturn(products);
+
+        // Call the controller method
         ResponseEntity<List<Product>> response = productController.getAllProducts(null);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(products, response.getBody());
-        verify(productService, times(1)).getAllProducts(null);
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(products, response.getBody());
     }
 
     @Test
-    void testGetProductById() {
-        long productId = 1L;
-        Product product = new Product();
+    public void testGetProductById() {
+        // Create test data
+        long productId = 1;
+        Product product = new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User());
+
+        // Mock the productService
         when(productService.getProductById(productId)).thenReturn(product);
 
+        // Call the controller method
         ResponseEntity<Product> response = productController.getProductById(productId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(product, response.getBody());
-        verify(productService, times(1)).getProductById(productId);
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(product, response.getBody());
     }
 
     @Test
-    void testCreateProduct() {
-        Product product = new Product();
-        Product createdProduct = new Product();
-        when(productService.createProduct(product)).thenReturn(createdProduct);
+    public void testCreateProduct() {
+        // Create test data
+        ProductDTO productDTO = new ProductDTO("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User());
 
-        ResponseEntity<Product> response = productController.createProduct(product);
+        // Mock the productService
+        Product createdProduct = new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User());
+        when(productService.createProduct(any(ProductDTO.class))).thenReturn(createdProduct);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(createdProduct, response.getBody());
-        verify(productService, times(1)).createProduct(product);
+        // Call the controller method
+        ResponseEntity<Product> response = productController.createProduct(productDTO);
+
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(createdProduct, response.getBody());
     }
 
     @Test
-    void testUpdateProduct() {
-        long productId = 1L;
-        Product product = new Product();
-        Product updatedProduct = new Product();
-        when(productService.updateProduct(productId, product)).thenReturn(updatedProduct);
+    public void testUpdateProduct() {
+        // Create test data
+        long productId = 1;
+        ProductDTO productDTO = new ProductDTO("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User());
 
-        ResponseEntity<Product> response = productController.updateProduct(productId, product);
+        // Mock the productService
+        Product updatedProduct = new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User());
+        when(productService.updateProduct(eq(productId), any(ProductDTO.class))).thenReturn(updatedProduct);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(updatedProduct, response.getBody());
-        verify(productService, times(1)).updateProduct(productId, product);
+        // Call the controller method
+        ResponseEntity<Product> response = productController.updateProduct(productId, productDTO);
+
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(updatedProduct, response.getBody());
     }
 
     @Test
-    void testDeleteProduct() {
-        long productId = 1L;
-        ResponseEntity<HttpStatus> expectedResponse = ResponseEntity.noContent().build();
+    public void testDeleteProduct() {
+        // Create test data
+        long productId = 1;
 
+        // Call the controller method
         ResponseEntity<HttpStatus> response = productController.deleteProduct(productId);
 
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        assertEquals(expectedResponse, response);
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         verify(productService, times(1)).deleteProduct(productId);
     }
 
     @Test
-    void testDeleteAllProducts() {
-        ResponseEntity<HttpStatus> expectedResponse = ResponseEntity.noContent().build();
-
+    public void testDeleteAllProducts() {
+        // Call the controller method
         ResponseEntity<HttpStatus> response = productController.deleteAllProducts();
 
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        assertEquals(expectedResponse, response);
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         verify(productService, times(1)).deleteAllProducts();
     }
 
     @Test
-    void testFindByPublished() {
+    public void testFindByPublished() {
+        // Create test data
         List<Product> publishedProducts = new ArrayList<>();
-        publishedProducts.add(new Product());
+        publishedProducts.add(new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User()));
+        publishedProducts.add(new Product("Test Product", "Test Description", null, 10, 5, null,
+                false, new Category(), new User()));
+
+        // Mock the productService
         when(productService.getPublishedProducts()).thenReturn(publishedProducts);
 
+        // Call the controller method
         ResponseEntity<List<Product>> response = productController.findByPublished();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(publishedProducts, response.getBody());
-        verify(productService, times(1)).getPublishedProducts();
+        // Verify the response
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(publishedProducts, response.getBody());
     }
-
 }

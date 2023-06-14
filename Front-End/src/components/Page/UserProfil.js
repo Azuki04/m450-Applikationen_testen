@@ -18,7 +18,12 @@ class UserProfil extends React.Component {
     }
 
     componentDidMount() {
-        this.getUser(this.props.router.params.id);
+        const { id } = this.props.router.params;
+        if (id === "null") {
+            this.props.router.navigate("/"); // Navigiere zum Login
+        } else {
+            this.getUser(id);
+        }
     }
 
     // Benutzerdetails des aktuellen Benutzers abrufen

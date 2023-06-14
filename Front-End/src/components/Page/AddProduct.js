@@ -68,7 +68,17 @@ class AddProduct extends React.Component {
     this.setState({ category: event.target.value });
   };
 
+  checkNullInUrl = () => {
+    const url = window.location.href;
+    if (url.includes("null")) {
+      // Redirect to login page
+      this.props.router.navigate("/"); // Navigiere zum Login
+    }
+  };
+
   componentDidMount() {
+    this.checkNullInUrl();
+
     fetch("http://localhost:8080/api/category")
       .then((response) => response.json())
       .then((data) => this.setState({ categories: data }));

@@ -13,6 +13,15 @@ const Products = () => {
     useEffect(() => {
         const number = extractNumberFromUrl(location.pathname);
         console.log(number);
+        // Fetch products for the user using the extracted number (userId)
+        if (number) {
+            fetch(`http://localhost:8080/api/products/user/${number}`)
+                .then((response) => response.json())
+                .then((data) => setProducts(data))
+                .catch((error) =>
+                    console.error("Error fetching products:", error)
+                );
+        }
     }, [location]);
 
     const extractNumberFromUrl = (url) => {
@@ -28,15 +37,6 @@ const Products = () => {
         setSearchInput(e.target.value);
     };
 
-    // Fetch get
-    useEffect(() => {
-        if (products.length === 0) {
-            fetch("http://localhost:8080/api/products")
-                .then((response) => response.json())
-                .then((data) => setProducts(data));
-        }
-    }, []);
-
     // Delete all products
     const removeAllProducts = () => {
         const requestOptions = {
@@ -47,7 +47,9 @@ const Products = () => {
             .then((data) => {
                 setProducts(data);
                 window.location.reload();
-                alert("You have successfully deleted all products. If not, please reload your page.");
+                alert(
+                    "You have successfully deleted all products. If not, please reload your page."
+                );
             });
     };
 
@@ -55,7 +57,9 @@ const Products = () => {
     const searchByTitle = () => {
         setCurrentProduct(null);
         setCurrentIndex(-1);
-        fetch(`http://localhost:8080/api/products?title=${searchInput}`)
+        fetch(
+            `http://localhost:8080/api/products?title=${searchInput}`
+        )
             .then((response) => response.json())
             .then((data) => setProducts(data));
     };
@@ -79,7 +83,11 @@ const Products = () => {
                             value={searchInput}
                             onChange={onChangeSearchInput}
                         />
-                        <Button buttonStyle="btn--normal" type="button" onClick={searchByTitle}>
+                        <Button
+                            buttonStyle="btn--normal"
+                            type="button"
+                            onClick={searchByTitle}
+                        >
                             Search
                         </Button>
                     </div>
@@ -97,7 +105,9 @@ const Products = () => {
                                 </Link>
                                 <span>CHF {product.price}.00</span>
                                 <p>{product.description}</p>
-                                <Link to={`/${extractNumberFromUrl(location.pathname)}/editProduct/${product.id}`}>
+                                <Link
+                                    to={`/${extractNumberFromUrl(location.pathname)}/editProduct/${product.id}`}
+                                >
                                     <button>Edit</button>
                                 </Link>
                             </div>

@@ -68,24 +68,24 @@ class AddProduct extends React.Component {
     this.setState({ category: event.target.value });
   };
 
-  checkNullInUrl = () => {
-    const url = window.location.href;
-    if (url.includes("null")) {
-      // Redirect to login page
-      this.props.router.navigate("/"); // Navigiere zum Login
-    }
-  };
-
   componentDidMount() {
-    this.checkNullInUrl();
-
     fetch("http://localhost:8080/api/category")
       .then((response) => response.json())
       .then((data) => this.setState({ categories: data }));
   }
 
+  extractNumberFromUrl = (url) => {
+    const regex = /\/(\d+)/;
+    const match = url.match(regex);
+    if (match && match.length > 1) {
+      return parseInt(match[1], 10);
+    }
+    return null;
+  };
+
   //Post fetch
   handleSubmit(event) {
+    const userId = this.extractNumberFromUrl(window.location.pathname); // Extrahiere die ID aus der URL
     event.preventDefault();
     let product = {
       title: this.state.title,
@@ -96,6 +96,9 @@ class AddProduct extends React.Component {
       src: this.state.src,
       category: {
         id: this.state.category,
+      },
+      user: {
+        id: userId, // Verwende die extrahierte ID
       },
     };
 

@@ -20,6 +20,13 @@ public class User {
     public User() {
 
     }
+    public User( String name, String email, boolean subscribed, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.subscribed = subscribed;
+        this.password = password;
+    }
 
     public User(Long id, String name, String email, boolean subscribed, String password) {
         this.id = id;

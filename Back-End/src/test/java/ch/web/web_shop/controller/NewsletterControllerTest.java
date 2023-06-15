@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class NewsletterControllerTest {
+class NewsletterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -22,7 +22,7 @@ public class NewsletterControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void createNewsletter_ValidNewsletter_Success() throws Exception {
+    void createNewsletter_ValidNewsletter_Success() throws Exception {
         Newsletter newsletter = new Newsletter();
         newsletter.setEmail("test@example.com");
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -25,12 +25,12 @@ public class UserServiceTest {
     private UserService userService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testRegisterUser_Success() {
+    void testRegisterUser_Success() {
         UserDTO userDTO = new UserDTO("John Doe", "john@example.com", true, "password");
         User user = new User("John Doe", "john@example.com", true, "password");
 
@@ -45,7 +45,7 @@ public class UserServiceTest {
         verify(userRepository, times(1)).save(any(User.class));
     }
     @Test
-    public void testRegisterUser_EmailExists() {
+    void testRegisterUser_EmailExists() {
         UserDTO userDTO = new UserDTO("John Doe", "john@example.com", true, "password");
         User existingUser = new User("John Doe", "john@example.com", true, "password");
 
@@ -60,7 +60,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testLoginUser_Success() {
+    void testLoginUser_Success() {
         UserDTO userDTO = new UserDTO("John Doe", "john@example.com", true, "password");
         User existingUser = new User("John Doe", "john@example.com", true, "password");
         existingUser.setId(1L);
@@ -75,7 +75,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testLoginUser_InvalidCredentials() {
+    void testLoginUser_InvalidCredentials() {
         UserDTO userDTO = new UserDTO("John Doe", "john@example.com", true, "password");
         User existingUser = new User("John Doe", "john@example.com", true, "wrong_password");
 
@@ -89,7 +89,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserDetails_UserExists() {
+    void testGetUserDetails_UserExists() {
         Long userId = 1L;
         User existingUser = new User(userId, "John Doe", "john@example.com", true, "password");
 
@@ -106,7 +106,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserDetails_UserNotFound() {
+    void testGetUserDetails_UserNotFound() {
         Long userId = 1L;
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());

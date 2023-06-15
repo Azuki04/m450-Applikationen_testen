@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class NewsletterServiceTest {
+class NewsletterServiceTest {
 
     @Mock
     private NewsletterRepository newsletterRepository;
@@ -22,12 +22,12 @@ public class NewsletterServiceTest {
     private NewsletterService newsletterService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testCreateNewsletter_Success() {
+    void testCreateNewsletter_Success() {
         NewsletterDTO newsletterDTO = new NewsletterDTO();
         Newsletter newsletter = new Newsletter();
 

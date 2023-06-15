@@ -12,7 +12,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ProductServiceTest {
+class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
@@ -23,12 +23,12 @@ public class ProductServiceTest {
     private ProductService productService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllProducts_NoTitle() {
+    void testGetAllProducts_NoTitle() {
         List<Product> productList = new ArrayList<>();
         productList.add(new Product());
         productList.add(new Product());
@@ -40,7 +40,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetAllProducts_WithTitle() {
+    void testGetAllProducts_WithTitle() {
         List<Product> productList = new ArrayList<>();
         productList.add(new Product());
         productList.add(new Product());
@@ -52,7 +52,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetAllProducts_Exception() {
+    void testGetAllProducts_Exception() {
         when(productRepository.findAll()).thenThrow(RuntimeException.class);
 
         assertThrows(ProductLoadException.class, () -> {
@@ -61,7 +61,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetProductById_Success() {
+    void testGetProductById_Success() {
         long productId = 1;
         Product product = new Product();
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
@@ -71,7 +71,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetProductById_NotFound() {
+    void testGetProductById_NotFound() {
         long productId = 1;
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
@@ -81,7 +81,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testCreateProduct_Success() {
+    void testCreateProduct_Success() {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setTitle("Test Product");
         productDTO.setDescription("Test Description");
@@ -108,7 +108,7 @@ public class ProductServiceTest {
 
 
     @Test
-    public void testCreateProduct_Exception() {
+    void testCreateProduct_Exception() {
         ProductDTO productDTO = new ProductDTO();
         when(productRepository.save(Mockito.any(Product.class))).thenThrow(RuntimeException.class);
 
@@ -118,7 +118,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testUpdateProduct_Success() {
+    void testUpdateProduct_Success() {
         long productId = 1;
         ProductDTO productDTO = new ProductDTO();
         Product existingProduct = new Product();
@@ -132,7 +132,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testUpdateProduct_NotFound() {
+    void testUpdateProduct_NotFound() {
         long productId = 1;
         ProductDTO productDTO = new ProductDTO();
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
@@ -143,7 +143,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testDeleteProduct_Success() {
+    void testDeleteProduct_Success() {
         long productId = 1;
         doNothing().when(productRepository).deleteById(productId);
 
@@ -155,7 +155,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testDeleteProduct_NotFound() {
+    void testDeleteProduct_NotFound() {
         long productId = 1;
         doThrow(RuntimeException.class).when(productRepository).deleteById(productId);
 
@@ -165,7 +165,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testDeleteAllProducts_Success() {
+    void testDeleteAllProducts_Success() {
         doNothing().when(productRepository).deleteAll();
 
         assertDoesNotThrow(() -> {
@@ -176,7 +176,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testDeleteAllProducts_Exception() {
+    void testDeleteAllProducts_Exception() {
         doThrow(RuntimeException.class).when(productRepository).deleteAll();
 
         assertThrows(ProductDeleteException.class, () -> {
@@ -185,7 +185,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetPublishedProducts_Success() {
+    void testGetPublishedProducts_Success() {
         List<Product> productList = new ArrayList<>();
         productList.add(new Product());
         productList.add(new Product());
@@ -197,7 +197,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetPublishedProducts_Exception() {
+    void testGetPublishedProducts_Exception() {
         when(productRepository.findByPublished(true)).thenThrow(RuntimeException.class);
 
         assertThrows(ProductLoadException.class, () -> {

@@ -17,10 +17,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ControllerAdvisorTest {
+class ControllerAdvisorTest {
 
     @Test
-    public void handleMissingServletRequestParameter_ReturnsErrorResponse() {
+    void handleMissingServletRequestParameter_ReturnsErrorResponse() {
         ControllerAdvisor advisor = new ControllerAdvisor();
         MissingServletRequestParameterException ex = new MissingServletRequestParameterException("param", "String");
         HttpHeaders headers = new HttpHeaders();
@@ -35,7 +35,7 @@ public class ControllerAdvisorTest {
     }
 
     @Test
-    public void handleCategoryLoadException_ReturnsErrorResponse() {
+    void handleCategoryLoadException_ReturnsErrorResponse() {
         ControllerAdvisor advisor = new ControllerAdvisor();
         CategoryLoadException ex = new CategoryLoadException("Category load failed");
         WebRequest request = new ServletWebRequest(new MockHttpServletRequest());
@@ -48,7 +48,7 @@ public class ControllerAdvisorTest {
     }
 
     @Test
-    public void handleCategoryNotFoundException_ReturnsErrorResponse() {
+    void handleCategoryNotFoundException_ReturnsErrorResponse() {
         ControllerAdvisor advisor = new ControllerAdvisor();
         CategoryNotFoundException ex = new CategoryNotFoundException("Category not found");
         WebRequest request = new ServletWebRequest(new MockHttpServletRequest());
@@ -61,7 +61,7 @@ public class ControllerAdvisorTest {
     }
 
     @Test
-    public void handleProductLoadException_ReturnsErrorResponse() {
+    void handleProductLoadException_ReturnsErrorResponse() {
         ControllerAdvisor advisor = new ControllerAdvisor();
         ProductLoadException ex = new ProductLoadException("Product load failed");
         WebRequest request = new ServletWebRequest(new MockHttpServletRequest());
@@ -74,7 +74,7 @@ public class ControllerAdvisorTest {
     }
 
     @Test
-    public void handleProductNotFoundException_ReturnsErrorResponse() {
+    void handleProductNotFoundException_ReturnsErrorResponse() {
         ControllerAdvisor advisor = new ControllerAdvisor();
         ResourceNotFoundException ex = new ResourceNotFoundException("Product not found");
         WebRequest request = new ServletWebRequest(new MockHttpServletRequest());
@@ -87,7 +87,7 @@ public class ControllerAdvisorTest {
     }
 
     @Test
-    public void handleProductCouldNotBeSavedException_ReturnsErrorResponse() {
+    void handleProductCouldNotBeSavedException_ReturnsErrorResponse() {
         ControllerAdvisor advisor = new ControllerAdvisor();
         ProductCouldNotBeSavedException ex = new ProductCouldNotBeSavedException("Product could not be saved");
         WebRequest request = new ServletWebRequest(new MockHttpServletRequest());

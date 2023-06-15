@@ -4,10 +4,10 @@ import ch.web.web_shop.model.Newsletter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class NewsletterTest {
+class NewsletterTest {
 
     @Test
-    public void testCreateNewsletter() {
+    void testCreateNewsletter() {
         String email = "test@example.com";
         Newsletter newsletter = new Newsletter(email);
 

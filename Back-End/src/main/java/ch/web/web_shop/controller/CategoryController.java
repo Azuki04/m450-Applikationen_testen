@@ -1,7 +1,6 @@
 package ch.web.web_shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -72,9 +71,6 @@ public class CategoryController {
 		try {
 			Iterable<Category> categories = categoryService.getAllCategories();
 			return ResponseEntity.ok(categories);
-		} catch (DataAccessException ex) {
-			// Handle specific data access exception, such as DataAccessException, DataAccessResourceFailureException, etc.
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		} catch (Exception ex) {
 			// Handle other generic exceptions
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

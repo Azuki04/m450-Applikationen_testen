@@ -12,7 +12,9 @@ public class NewsletterDTO {
     @Email(message = "Invalid email format")
     private String email;
 
+    //Empty Constructor
     public NewsletterDTO() {
+        //Empty Constructor
     }
 
 

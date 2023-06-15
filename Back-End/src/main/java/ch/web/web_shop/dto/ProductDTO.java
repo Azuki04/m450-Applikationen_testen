@@ -28,8 +28,6 @@ public class ProductDTO {
     @NotNull(message = "Stock cannot be null")
     private int stock;
 
-    private String src;
-
     private boolean published;
 
     @NotNull(message = "Category cannot be null")
@@ -42,15 +40,14 @@ public class ProductDTO {
         // Default constructor
     }
 
-    public ProductDTO(String title, String description, String content, int price, int stock, String src,
-                      boolean published, Category category, User user) {
+    public ProductDTO(String title, String description, String content, int price, int stock,
+                       Category category, User user) {
         this.title = title;
         this.description = description;
         this.content = content;
         this.price = price;
         this.stock = stock;
-        this.src = src;
-        this.published = published;
+        this.published = false;
         this.category = category;
         this.user = user;
     }
@@ -75,10 +72,6 @@ public class ProductDTO {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -93,14 +86,6 @@ public class ProductDTO {
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    public String getSrc() {
-        return src;
-    }
-
-    public void setSrc(String src) {
-        this.src = src;
     }
 
     public boolean isPublished() {

@@ -57,25 +57,16 @@ public class Product {
 		// Default constructor required by JPA
 	}
 
-	public Product(String title, String description, String content, int price, int stock, String src,
-				   boolean published, Category category, User user) {
+	public Product(String title, String description, String content, int price, int stock,
+				   Category category, User user) {
 		this.title = title;
 		this.description = description;
 		this.content = content;
 		this.price = price;
 		this.stock = stock;
-		this.src = src;
-		this.published = published;
+		this.published = false;
 		this.category = category;
 		this.user = user;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {
@@ -118,14 +109,6 @@ public class Product {
 		this.stock = stock;
 	}
 
-	public String getSrc() {
-		return src;
-	}
-
-	public void setSrc(String src) {
-		this.src = src;
-	}
-
 	public boolean isPublished() {
 		return published;
 	}
@@ -152,6 +135,6 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", published=" + published + "]";
+		return "Product [title=" + title + ", description=" + description + ", published=" + published + "]";
 	}
 }

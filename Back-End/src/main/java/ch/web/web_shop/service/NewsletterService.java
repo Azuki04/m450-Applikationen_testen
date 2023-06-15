@@ -1,5 +1,6 @@
 package ch.web.web_shop.service;
 
+import ch.web.web_shop.dto.NewsletterDTO;
 import ch.web.web_shop.model.Newsletter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class NewsletterService {
         this.newsletterRepository = newsletterRepository;
     }
 
-    public Newsletter createNewsletter(Newsletter newsletter) {
+    public Newsletter createNewsletter(NewsletterDTO newsletterDTO) {
+        Newsletter newsletter = new Newsletter(newsletterDTO.getEmail());
         return newsletterRepository.save(newsletter);
     }
 }

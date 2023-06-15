@@ -22,9 +22,6 @@ public class UserDTO {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;
@@ -38,17 +35,10 @@ public class UserDTO {
         return subscribed;
     }
 
-    public void setSubscribed(boolean subscribed) {
-        this.subscribed = subscribed;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Override
     public String toString() {

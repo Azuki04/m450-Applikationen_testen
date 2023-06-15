@@ -9,6 +9,7 @@ const Products = () => {
     const [currentProduct, setCurrentProduct] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [searchInput, setSearchInput] = useState("");
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const number = extractNumberFromUrl(location.pathname);
@@ -18,9 +19,15 @@ const Products = () => {
             fetch(`http://localhost:8080/api/products/user/${number}`)
                 .then((response) => response.json())
                 .then((data) => setProducts(data))
-                .catch((error) =>
-                    console.error("Error fetching products:", error)
-                );
+                .catch((error) => console.error("Error fetching products:", error));
+        }
+
+        // Fetch user details
+        if (number) {
+            fetch(`http://localhost:8080/api/users/${number}`)
+                .then((response) => response.json())
+                .then((data) => setUser(data))
+                .catch((error) => console.error("Error fetching user:", error));
         }
     }, [location]);
 
@@ -53,27 +60,35 @@ const Products = () => {
             });
     };
 
+    const id = extractNumberFromUrl(location.pathname);
+
     // Search for title
     const searchByTitle = () => {
         setCurrentProduct(null);
         setCurrentIndex(-1);
-        fetch(
-            `http://localhost:8080/api/products?title=${searchInput}`
-        )
+        fetch(`http://localhost:8080/api/products?title=${searchInput}`)
             .then((response) => response.json())
             .then((data) => setProducts(data));
     };
 
+    if (!user) {
+        return (
+            <h2 style={{ margin: "100px", textAlign: "center" }}>
+                Loading user...
+            </h2>
+        );
+    }
+
     if (products.length === 0) {
         return (
             <h2 style={{ margin: "100px", textAlign: "center" }}>
-                You have not created any products yet.
+                {user.name} has not created any products yet.
             </h2>
         );
     } else {
         return (
             <div>
-                <h4>Created products by name</h4>
+                <h4>Created products by: {user.name}</h4>
                 <div className="search">
                     <div>
                         <input

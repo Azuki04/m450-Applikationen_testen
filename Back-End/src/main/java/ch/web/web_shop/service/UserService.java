@@ -1,5 +1,6 @@
 package ch.web.web_shop.service;
 
+import ch.web.web_shop.dto.UserDTO;
 import ch.web.web_shop.model.User;
 import ch.web.web_shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,34 +15,45 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseEntity<String> registerUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+    public ResponseEntity<String> registerUser(UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.getEmail()) != null) {
             return ResponseEntity.badRequest().body("E-Mail already exists");
         }
 
+        User user = convertToUser(userDTO);
         userRepository.save(user);
         return ResponseEntity.ok("Registration successful");
     }
 
-    public ResponseEntity<String> loginUser(User user) {
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
+    public ResponseEntity<String> loginUser(UserDTO userDTO) {
+        User existingUser = userRepository.findByEmail(userDTO.getEmail());
+        if (existingUser == null || !existingUser.getPassword().equals(userDTO.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
 
-        // ID des eingeloggten Benutzers abrufen und in einen Text umwandeln
+        // ID of the logged-in user as a text
         String userId = String.valueOf(existingUser.getId());
 
-        // ID zusammen mit der Erfolgsmeldung zurückgeben
+        // Return the ID along with the success message
         return ResponseEntity.ok(userId);
     }
-    public ResponseEntity<User> getUserDetails(Long id) {
+
+    public ResponseEntity<UserDTO> getUserDetails(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            return ResponseEntity.ok(user);
+            UserDTO userDTO = convertToUserDTO(user);
+            return ResponseEntity.ok(userDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    private User convertToUser(UserDTO userDTO) {
+        return new User(userDTO.getName(), userDTO.getEmail(), userDTO.isSubscribed(), userDTO.getPassword());
+    }
+
+    private UserDTO convertToUserDTO(User user) {
+        return new UserDTO(user.getName(), user.getEmail(), user.isSubscribed(), user.getPassword());
     }
 }

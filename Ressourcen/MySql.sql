@@ -1,11 +1,11 @@
 
 
 -- zuerst die Datenbank erstellen
-DROP DATABASE IF EXISTS webapp;
-CREATE DATABASE webapp;
+DROP DATABASE IF EXISTS webshop;
+CREATE DATABASE webshop;
 -- wenn das Backend am laufen ist, kann man den unteren Code ausfueren.
 
-use webapp;
+use webshop;
 
 INSERT INTO category(id, category) VALUES 
 (1, "Clothing"),

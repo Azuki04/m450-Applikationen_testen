@@ -1,62 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Menu from "./svg/bars-solid.svg";
 import Close from "./svg/times-solid.svg";
 import CartIcon from "./svg/shopping-cart-solid.svg";
-import { Link } from "react-router-dom";
+import User from "./svg/user.svg";
+import { Link, useLocation } from "react-router-dom";
 import "./css/GlobalNavigation.css";
 
-class GlobalNavigation extends React.Component {
-  state = {
-    toggle: false,
+const GlobalNavigation = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const number = extractNumberFromUrl(location.pathname);
+    console.log(number);
+  }, [location]);
+
+  const extractNumberFromUrl = (url) => {
+    const regex = /\/(\d+)/;
+    const match = url.match(regex);
+    if (match && match.length > 1) {
+      return parseInt(match[1], 10);
+    }
+    return null;
   };
 
-  menuToggle = () => {
+  const menuToggle = () => {
     this.setState({ toggle: !this.state.toggle });
   };
 
-  render() {
-    const { toggle } = this.state;
-    return (
+  const number = extractNumberFromUrl(location.pathname);
+
+  return (
       <header>
-        <div className="menu" onClick={this.menuToggle}>
+        <div className="menu" onClick={menuToggle}>
           <img src={Menu} alt="" width="20" />
         </div>
         <div className="logo">
           <h1>
-            <Link to="/">Shop.ch</Link>
+            <Link to={`/${number}/home`}>Shop.ch</Link>
           </h1>
         </div>
         <nav>
-          <ul className={toggle ? "toggle" : ""}>
+          <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to={`/${number}/home`}>Home</Link>
             </li>
             <li>
-              <Link to="/products">my_Products</Link>
+              <Link to={`/${number}/products`}>my_Products</Link>
             </li>
             <li>
-              <Link to="/contact">Contact</Link>
+              <Link to={`/${number}/contact`}>Contact</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
+              <Link to={`/${number}/about`}>About</Link>
             </li>
             <li>
-              <Link to="/add">Create</Link>
+              <Link to={`/${number}/add`}>Create</Link>
             </li>
-            <li className="close" onClick={this.menuToggle}>
+            <li className="close" onClick={menuToggle}>
               <img src={Close} alt="" width="20" />
             </li>
           </ul>
+          <div className="nav-user">
+            <Link to={`/user/${number}`}>
+              <img src={User} alt="user" width="25" />
+            </Link>
+          </div>
           <div className="nav-cart">
             <span>0</span>
-            <Link to="/cart">
+            <Link to={`/${number}/cart`}>
               <img src={CartIcon} alt="" width="20" />
             </Link>
           </div>
         </nav>
       </header>
-    );
-  }
-}
+  );
+};
 
 export default GlobalNavigation;

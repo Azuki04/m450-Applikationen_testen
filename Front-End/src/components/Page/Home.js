@@ -83,7 +83,7 @@ class Home extends React.Component {
             {products.map((product) => (
               <div className="card" key={product.id}>
                 <Link to={`/products/detail/${product.id}`}>
-                  <img src=".\img\blob.jpg" alt="Product_Picture" />
+                  <img src="..\img\blob.jpg" alt="Product_Picture" />
                 </Link>
                 <div className="content">
                   <Link to={`/products/detail/${product.id}`}>

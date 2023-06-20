@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "products")
 public class Product {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -57,16 +56,61 @@ public class Product {
 		// Default constructor required by JPA
 	}
 
-	public Product(String title, String description, String content, int price, int stock,
-				   Category category, User user) {
-		this.title = title;
-		this.description = description;
-		this.content = content;
-		this.price = price;
-		this.stock = stock;
-		this.published = false;
-		this.category = category;
-		this.user = user;
+	public static class Builder {
+		private String title;
+		private String description;
+		private String content;
+		private int price;
+		private int stock;
+		private boolean published;
+		private Category category;
+		private User user;
+
+		public Builder(String title, String description, int price, int stock, boolean published) {
+			this.title = title;
+			this.description = description;
+			this.price = price;
+			this.stock = stock;
+			this.published = published;
+		}
+
+		public Builder content(String content) {
+			this.content = content;
+			return this;
+		}
+
+		public Builder category(Category category) {
+			this.category = category;
+			return this;
+		}
+
+		public Builder user(User user) {
+			this.user = user;
+			return this;
+		}
+
+		public Product build() {
+			Product product = new Product();
+			product.setTitle(title);
+			product.setDescription(description);
+			product.setContent(content);
+			product.setPrice(price);
+			product.setStock(stock);
+			product.setPublished(published);
+			product.setCategory(category);
+			product.setUser(user);
+			return product;
+		}
+	}
+
+	// Getters and setters
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -109,12 +153,12 @@ public class Product {
 		this.stock = stock;
 	}
 
-	public boolean isPublished() {
-		return published;
-	}
-
 	public void setPublished(boolean published) {
 		this.published = published;
+	}
+
+	public boolean getPublished() {
+		return published;
 	}
 
 	public Category getCategory() {
@@ -131,10 +175,5 @@ public class Product {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [title=" + title + ", description=" + description + ", published=" + published + "]";
 	}
 }

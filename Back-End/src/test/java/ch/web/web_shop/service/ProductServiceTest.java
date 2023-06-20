@@ -7,7 +7,10 @@ import ch.web.web_shop.repository.ProductRepository;
 import ch.web.web_shop.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -82,14 +85,16 @@ class ProductServiceTest {
 
     @Test
     void testCreateProduct_Success() {
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setTitle("Test Product");
-        productDTO.setDescription("Test Description");
-        productDTO.setPrice(10);
-        productDTO.setStock(5);
-        productDTO.setPublished(false);
-        productDTO.setCategory(new Category());
-        productDTO.setUser(new User());
+        ProductDTO productDTO = new ProductDTO.Builder()
+                .withTitle("Test Product")
+                .withDescription("Test Description")
+                .withPrice(10)
+                .withStock(5)
+                .withPublished(false)
+                .withCategory(new Category())
+                .withUser(new User())
+                .withContent("Cool Product")
+                .build();
 
         Product product = new Product();
         product.setTitle("Test Product");
@@ -99,8 +104,9 @@ class ProductServiceTest {
         product.setPublished(false);
         product.setCategory(new Category());
         product.setUser(new User());
+        product.setContent("Cool Product");
 
-        when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
+        when(productRepository.save(any(Product.class))).thenReturn(product);
 
         Product result = productService.createProduct(productDTO);
         assertEquals(product, result);
@@ -109,8 +115,17 @@ class ProductServiceTest {
 
     @Test
     void testCreateProduct_Exception() {
-        ProductDTO productDTO = new ProductDTO();
-        when(productRepository.save(Mockito.any(Product.class))).thenThrow(RuntimeException.class);
+        ProductDTO productDTO = new ProductDTO.Builder()
+                .withTitle("Test Product")
+                .withDescription("Test Description")
+                .withPrice(10)
+                .withStock(5)
+                .withPublished(false)
+                .withCategory(new Category())
+                .withUser(new User())
+                .build();
+
+        when(productRepository.save(any(Product.class))).thenThrow(RuntimeException.class);
 
         assertThrows(ProductCouldNotBeSavedException.class, () -> {
             productService.createProduct(productDTO);
@@ -120,7 +135,16 @@ class ProductServiceTest {
     @Test
     void testUpdateProduct_Success() {
         long productId = 1;
-        ProductDTO productDTO = new ProductDTO();
+        ProductDTO productDTO = new ProductDTO.Builder()
+                .withTitle("Updated Product")
+                .withDescription("Updated Description")
+                .withPrice(20)
+                .withStock(10)
+                .withPublished(true)
+                .withCategory(new Category())
+                .withUser(new User())
+                .build();
+
         Product existingProduct = new Product();
         when(productRepository.findById(productId)).thenReturn(Optional.of(existingProduct));
         when(productRepository.save(existingProduct)).thenReturn(existingProduct);
@@ -128,6 +152,13 @@ class ProductServiceTest {
         Product result = productService.updateProduct(productId, productDTO);
 
         assertEquals(existingProduct, result);
+        assertEquals("Updated Product", result.getTitle());
+        assertEquals("Updated Description", result.getDescription());
+        assertEquals(20, result.getPrice());
+        assertEquals(10, result.getStock());
+        assertTrue(result.getPublished());
+        assertNotNull(result.getCategory());
+        assertNotNull(result.getUser());
         verify(productRepository, times(1)).save(existingProduct);
     }
 
@@ -157,7 +188,7 @@ class ProductServiceTest {
     @Test
     void testDeleteProduct_NotFound() {
         long productId = 1;
-        doThrow(RuntimeException.class).when(productRepository).deleteById(productId);
+        doThrow(ProductNotFoundException.class).when(productRepository).deleteById(productId);
 
         assertThrows(ProductNotFoundException.class, () -> {
             productService.deleteProduct(productId);

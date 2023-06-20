@@ -37,10 +37,17 @@ class ProductControllerTest {
     void testGetAllProducts() {
         // Create test data
         List<Product> products = new ArrayList<>();
-        products.add(new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User()));
-        products.add(new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User()));
+        products.add(new Product.Builder("Title", "Description", 100, 5, false)
+                .content("Content")
+                .category(new Category())
+                .user(new User())
+                .build());
+
+        products.add(new Product.Builder("Title2", "Description2", 100, 5, false)
+                .content("Content2")
+                .category(new Category())
+                .user(new User())
+                .build());
 
         // Mock the productService
         when(productService.getAllProducts(anyString())).thenReturn(products);
@@ -49,7 +56,7 @@ class ProductControllerTest {
         ResponseEntity<List<Product>> response = productController.getAllProducts(null);
 
         // Verify the response
-        Assertions.assertEquals(null, response.getBody());
+        Assertions.assertNull(response.getBody());
     }
 
 
@@ -61,8 +68,11 @@ class ProductControllerTest {
     void testGetProductById() {
         // Create test data
         long productId = 1;
-        Product product = new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User());
+        Product product = new Product.Builder("Title2", "Description2", 100, 5, false)
+                .content("Content2")
+                .category(new Category())
+                .user(new User())
+                .build();
 
         // Mock the productService
         when(productService.getProductById(productId)).thenReturn(product);
@@ -78,12 +88,22 @@ class ProductControllerTest {
     @Test
     void testCreateProduct() {
         // Create test data
-        ProductDTO productDTO = new ProductDTO("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User());
+        ProductDTO productDTO = new ProductDTO.Builder()
+                .withTitle("Test Product")
+                .withDescription("Test Description")
+                .withPrice(10)
+                .withStock(5)
+                .withPublished(false)
+                .withCategory(new Category())
+                .withUser(new User())
+                .build();
 
         // Mock the productService
-        Product createdProduct = new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User());
+        Product createdProduct = new Product.Builder("Test Product", "Test Description", 10, 5, false)
+                .content(null)
+                .category(new Category())
+                .user(new User())
+                .build();
         when(productService.createProduct(any(ProductDTO.class))).thenReturn(createdProduct);
 
         // Call the controller method
@@ -98,12 +118,22 @@ class ProductControllerTest {
     void testUpdateProduct() {
         // Create test data
         long productId = 1;
-        ProductDTO productDTO = new ProductDTO("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User());
+        ProductDTO productDTO = new ProductDTO.Builder()
+                .withTitle("Test Product")
+                .withDescription("Test Description")
+                .withPrice(10)
+                .withStock(5)
+                .withPublished(false)
+                .withCategory(new Category())
+                .withUser(new User())
+                .build();
 
         // Mock the productService
-        Product updatedProduct = new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User());
+        Product updatedProduct = new Product.Builder("Test Product", "Test Description", 10, 5, false)
+                .content(null)
+                .category(new Category())
+                .user(new User())
+                .build();
         when(productService.updateProduct(eq(productId), any(ProductDTO.class))).thenReturn(updatedProduct);
 
         // Call the controller method
@@ -141,10 +171,16 @@ class ProductControllerTest {
     void testFindByPublished() {
         // Create test data
         List<Product> publishedProducts = new ArrayList<>();
-        publishedProducts.add(new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User()));
-        publishedProducts.add(new Product("Test Product", "Test Description", null, 10, 5,
-                new Category(), new User()));
+        publishedProducts.add(new Product.Builder("Title", "Description", 100, 5, false)
+                .content("Content")
+                .category(new Category())
+                .user(new User())
+                .build());
+        publishedProducts.add(new Product.Builder("Title2", "Description2", 100, 5, false)
+                .content("Content2")
+                .category(new Category())
+                .user(new User())
+                .build());
 
         // Mock the productService
         when(productService.getPublishedProducts()).thenReturn(publishedProducts);

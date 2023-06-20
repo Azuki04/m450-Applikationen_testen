@@ -14,11 +14,16 @@ class ProductTest {
         String content = "Test content";
         int price = 100;
         int stock = 10;
+        boolean published = false;
         Category category = new Category("Test Category");
         User user = new User("Test User","email@email.ch",false, "password");
 
         // Create a new product
-        Product product = new Product(title, description, content, price, stock, category, user);
+        Product product = new Product.Builder(title, description, price, stock, published)
+                .content(content)
+                .category(category)
+                .user(user)
+                .build();
 
         // Test the product attributes
         Assertions.assertEquals(title, product.getTitle());
@@ -26,6 +31,7 @@ class ProductTest {
         Assertions.assertEquals(content, product.getContent());
         Assertions.assertEquals(price, product.getPrice());
         Assertions.assertEquals(stock, product.getStock());
+        Assertions.assertEquals(published, product.getPublished());
         Assertions.assertEquals(category, product.getCategory());
         Assertions.assertEquals(user, product.getUser());
     }

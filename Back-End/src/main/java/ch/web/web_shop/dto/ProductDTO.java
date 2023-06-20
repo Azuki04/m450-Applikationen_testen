@@ -3,53 +3,83 @@ package ch.web.web_shop.dto;
 import ch.web.web_shop.model.Category;
 import ch.web.web_shop.model.User;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class ProductDTO {
-
-    @NotEmpty(message = "Title is mandatory")
-    @NotNull(message = "Title cannot be null")
     private String title;
-
-    @Size(min = 1, max = 50, message = "Description must be between 1 and 50 characters")
-    @NotNull(message = "Description cannot be null")
     private String description;
-
     private String content;
-
-    @Min(value = 0, message = "Price should not be less than 0")
-    @NotNull(message = "Price cannot be null")
     private int price;
-
-    @Min(value = 1, message = "Stock should not be less than 1")
-    @NotNull(message = "Stock cannot be null")
     private int stock;
-
     private boolean published;
-
-    @NotNull(message = "Category cannot be null")
     private Category category;
-
-    @NotNull(message = "User cannot be null")
     private User user;
 
     public ProductDTO() {
         // Default constructor
     }
 
-    public ProductDTO(String title, String description, String content, int price, int stock,
-                       Category category, User user) {
-        this.title = title;
-        this.description = description;
-        this.content = content;
-        this.price = price;
-        this.stock = stock;
-        this.published = false;
-        this.category = category;
-        this.user = user;
+    public static class Builder {
+        private String title;
+        private String description;
+        private String content;
+        private int price;
+        private int stock;
+        private boolean published;
+        private Category category;
+        private User user;
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder withContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Builder withPrice(int price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder withStock(int stock) {
+            this.stock = stock;
+            return this;
+        }
+
+        public Builder withPublished(boolean published) {
+            this.published = published;
+            return this;
+        }
+
+        public Builder withCategory(Category category) {
+            this.category = category;
+            return this;
+        }
+
+        public Builder withUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public ProductDTO build() {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setTitle(title);
+            productDTO.setDescription(description);
+            productDTO.setContent(content);
+            productDTO.setPrice(price);
+            productDTO.setStock(stock);
+            productDTO.setPublished(published);
+            productDTO.setCategory(category);
+            productDTO.setUser(user);
+            return productDTO;
+        }
     }
 
     public String getTitle() {
@@ -70,6 +100,10 @@ public class ProductDTO {
 
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public int getPrice() {

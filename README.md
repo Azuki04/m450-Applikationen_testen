@@ -10,7 +10,7 @@ Dieses Projekt wurde von Sy Viet, Jakub und Ivan entwickelt.
 4. Führen Sie folgenden Befehl aus, um das Backend mit Maven zu starten:
 
 ```sh
-mav spring-boot:run
+mvn spring-boot:run
 ```
 5. Öffnen Sie das Frontend-Projektverzeichnis in Ihrer Entwicklungsumgebung.
 6. Führen Sie den folgenden Befehl aus, um das Frontend zu starten:
